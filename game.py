@@ -211,10 +211,10 @@ if __name__ == '__main__':
     from Human_player import HumanPlayer
     from AI_player import AIPlayer
 
-    o = HumanPlayer("O")
-    #x = RandomPlayer("X")
+    #x = HumanPlayer("X")
+    x = RandomPlayer("X")
     #o = RandomPlayer("O")
-    x = AIPlayer("X")
+    o = AIPlayer("O")
 #     o = AIPlayer("O")
     game = Game(x, o)
     game.run()

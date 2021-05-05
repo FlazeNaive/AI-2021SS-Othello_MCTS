@@ -15,7 +15,7 @@ class AIPlayer:
         act = None
         action_list = list(board.get_legal_actions(color))
 
-        score_sum = 0       # 记录这个节点的总分（用来算select的子节点）
+        rec_sum = 0       # 记录这个节点的总分（用来算select的子节点）
 
         for action in action_list:
             play_board = deepcopy(board)
@@ -24,7 +24,7 @@ class AIPlayer:
             # 计算该action后对应的棋盘的key值
             if self.rec.get((color, tmp_key)):
                 # 访问过则继续计算总分
-                score_sum += self.rec.get((color, tmp_key))
+                rec_sum += self.rec.get((color, tmp_key))
 
         for action in action_list:
             play_board = deepcopy(board)
@@ -32,7 +32,7 @@ class AIPlayer:
             tmp_key = tuple(np.ravel(play_board._board))
             score_tmp = (self.scr.get((color, tmp_key)) / self.rec.get((color, tmp_key)) + 
                 self.C * math.sqrt(
-                    math.log(score_sum) / self.rec.get((color, tmp_key))
+                    math.log(rec_sum) / self.rec.get((color, tmp_key))
                 ))
             # 计算键值 以及积分
             if score_act == None:
@@ -58,7 +58,7 @@ class AIPlayer:
             all_explored = True # 这个节点的子节点是否全部访问过
             non_vis_son = []    # 记录没有访问过的儿子节点
 
-            score_sum = 0       # 记录这个节点的总分（用来算select的子节点）
+            rec_sum = 0       # 记录这个节点的总分（用来算select的子节点）
 
             for action in action_list:
                 play_board = deepcopy(board)
@@ -71,7 +71,7 @@ class AIPlayer:
                     non_vis_son.append((action, tmp_key))
                 else:
                     # 访问过则继续计算总分
-                    score_sum += self.rec.get((color, tmp_key))
+                    rec_sum += self.rec.get((color, tmp_key))
 
             if all_explored:
                 # 如果全部访问过，则在该节点中选择分数最高的儿子
@@ -161,7 +161,7 @@ class AIPlayer:
         if (game_state == 0 and self.color == "O") or (game_state == 1 and self.color == "X"):
             scr_diff = - scr_diff
             # 把scr_diff改成（AI-对方）的分差，可以为负
-        scr_diff *= 0.2
+        scr_diff *= 0.4
         # 加一个系数
         if color == self.color:
             # 如果当前决策节点的颜色是AI的颜色，则加上分差，否则减去分差
