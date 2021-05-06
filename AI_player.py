@@ -10,6 +10,11 @@ class AIPlayer:
     AI玩家
     """
     def UCB1(self, color, board_in):
+        """
+        :param color: 当前节点对应的颜色
+        :param board_in: 当前棋盘状态
+        :return : 根据采样结果，对AI方最有利的落子位置
+        """
         board = deepcopy(board_in)
         score_act = None
         act = None
@@ -134,7 +139,7 @@ class AIPlayer:
                     return board.get_winner()
 
     
-    def BackPropogate(self, scr_diff):
+    def BackPropagate(self, scr_diff):
         """
         :param scr_diff: 乘上系数的AI与对手的分数差
         """
@@ -204,7 +209,7 @@ class AIPlayer:
                 continue 
             scr_diff = self.Expand(board, color, act, tmpkey)
             # Expand 得到当前扩展节点的分数，并用于bp
-            self.BackPropogate(scr_diff)
+            self.BackPropagate(scr_diff)
 
         print(count)
         return self.UCB1(self.color, board_input)
